@@ -2,7 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary-color: #78B7BB
+  --secondary-color: #FFF1C1
+  --font-primary: #FBFBFB
+  --font-secondary: #808B97
+  --background-primary: #FBFBFB
+}
+
 html {
   background: url(../public/img/Db_back.png) no-repeat center center fixed;
   box-sizing: border-box;
-}
+} 
