@@ -38,6 +38,13 @@ const options = {
       },
     }),
   ],
+  pages: {
+    signIn: '/auth/signin',
+    signOut: '/auth/signout',
+    error: '/auth/error',
+    verifyRequest: '/auth/verify-request',
+    newUser: '/auth/newuser'
+  },
   callbacks: {
     jwt: ({ token, user }) => {
       // first time jwt callback is run, user object will be available
