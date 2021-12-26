@@ -1,10 +1,12 @@
 import react from "react";
 
 export default function LoginForm({ passFormInfo }) {
-
   return (
     <div className="md:w-full md:max-w-sm">
-      <form onSubmit={passFormInfo} className="bg-white shadow-md rounded md:px-8 px-16 pt-6 pb-8 md:mb-4">
+      <form
+        onSubmit={passFormInfo}
+        className="bg-white shadow-md rounded md:px-8 px-16 pt-6 pb-8 md:mb-4"
+      >
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -32,7 +34,9 @@ export default function LoginForm({ passFormInfo }) {
             type="password"
             placeholder="**************"
           ></input>
-          <p className="text-red-500 text-xs italic">Please choose a password.</p>
+          <p className="text-red-500 text-xs italic">
+            Please choose a password.
+          </p>
         </div>
         <div className="invisible md:visible flex items-center justify-between">
           <button
@@ -41,12 +45,20 @@ export default function LoginForm({ passFormInfo }) {
           >
             Sign In
           </button>
-          <a
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            href="#"
-          >
-            Forgot Password?
-          </a>
+          <div className="flex flex-col">
+            <a
+              className="inline-block align-baseline font-bold text-sm text-blue-300 hover:text-blue-500"
+              href="#"
+            >
+              Forgot Password?
+            </a>
+            <a
+              className="inline-block align-baseline font-bold text-sm text-blue-300 hover:text-blue-500"
+              href="#"
+            >
+              Create Account
+            </a>
+          </div>
         </div>
         <div className="visible md:invisible flex items-center flex-col">
           <button
