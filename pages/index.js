@@ -1,27 +1,42 @@
-import react from "react"
-import Link from "next/link"
-import { signIn, signOut, useSession } from 'next-auth/react'
+import react from "react";
+import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import IndexCheckAuth from "../components/login/IndexCheckAuth";
 
 function Home() {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  // check user authentication
+  useEffect(() => {
+    if (!session) {
+      setTimeout(() => {
+        // router.push("auth/signin"); //TODO: uncomment this
+      }, 2000);
+    }
+  }, []);
+
   return (
     <main>
       {!session && (
-        <>
-          Not signed in <br />
-          <button onClick={() => signIn()}>Sign In</button>
-        </>
+        // if the user does not have a session, redirect to login
+        <IndexCheckAuth>
+          <p>
+            It looks like you are not logged in....
+            <br />
+            Redirecting you to the login page
+          </p>
+        </IndexCheckAuth>
       )}
       {session && (
-        <>
-          Signed in as {session.user.email} <br />
-          <div>You can now see the pages!</div>
-          <Link href="/secret">To the secret</Link> <br />
-          <button onClick={() => signOut()}>Sign out</button>
-        </>
+        <IndexCheckAuth>
+          <div></div>
+        </IndexCheckAuth>
       )}
     </main>
-  )
+  );
 }
 
-export default Home
+export default Home;
