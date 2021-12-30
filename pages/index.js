@@ -23,11 +23,21 @@ function Home() {
       {!session && (
         // if the user does not have a session, redirect to login
         <IndexCheckAuth>
-          <p>
-            It looks like you are not logged in....
-            <br />
-            Redirecting you to the login page
-          </p>
+          <div>
+            <p className="text-3xl">
+              Oops...
+            </p>
+          </div>
+          <br/>
+          <div className="flex justify-center align-middle">
+            <div className="shadow-lg rounded-md bg-blue-200">
+              <p className="py-3 px-10">
+                It looks like you are not logged in....
+                <br />
+                Redirecting you to the login page
+              </p>
+            </div>
+          </div>
         </IndexCheckAuth>
       )}
       {session && (
