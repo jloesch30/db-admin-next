@@ -1,20 +1,31 @@
 import react from "react";
 import { useValidate } from "../../hooks/useValidate";
+import useInput from "../../hooks/use-input";
 
 export default function LoginForm({ passFormInfo }) {
   const {
-    valid: isValidUserName,
-    getValidation: validateUser,
-    error: errorUser,
-    setFormInput: setUserInput,
-  } = useValidate();
+    value: enteredUsername,
+    isValid: enteredUserNameValid,
+    hasError: usernameHasError,
+    valueChangeHandler: usernameChangeHandler,
+    inputBlurHandler: usernameBlurHandler,
+    reset: resetUsernameInput,
+  } = useInput((value) => value.includes("@") && value.trim() !== "");
 
   const {
-    valid: isValidPassword,
-    getValidation: validatePassword,
-    error: errorPassword,
-    setFormInput: setPasswordInput,
-  } = useValidate();
+    value: enteredPassword,
+    isValid: enteredPasswordValid,
+    hasError: passwordHasError,
+    valueChangeHandler: passwordChangeHandler,
+    inputBlurHandler: passwordBlurHandler,
+    reset: resetPasswordInput,
+  } = useInput((value) => value.trim() !== "");
+
+  let formIsValid = false;
+
+  if (enteredUserNameValid && enteredPasswordValid) {
+    formIsValid = true;
+  }
 
   return (
     <div className="md:w-full md:max-w-sm">
@@ -26,16 +37,25 @@ export default function LoginForm({ passFormInfo }) {
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="username"
-            onChange={() => }
           >
             Username
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className={`shadow appearance-none border ${
+              usernameHasError ? "border-red-500" : ""
+            } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
             id="username"
             type="text"
             placeholder="Username"
+            value={enteredUsername}
+            onChange={usernameChangeHandler}
+            onBlur={usernameBlurHandler}
           ></input>
+          {usernameHasError && (
+            <p className="text-red-500 text-xs italic">
+              Please include a username.
+            </p>
+          )}
         </div>
         <div className="mb-0 md:mb-6">
           <label
@@ -45,19 +65,27 @@ export default function LoginForm({ passFormInfo }) {
             Password
           </label>
           <input
-            className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className={`shadow appearance-none border ${
+              passwordHasError ? "border-red-500" : ""
+            } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
             id="password"
             type="password"
             placeholder="**************"
+            value={enteredPassword}
+            onChange={passwordChangeHandler}
+            onBlur={passwordBlurHandler}
           ></input>
-          <p className="text-red-500 text-xs italic">
-            Please choose a password.
-          </p>
+          {passwordHasError && (
+            <p className="text-red-500 text-xs italic">
+              Please choose a password.
+            </p>
+          )}
         </div>
         <div className="invisible md:visible flex items-center justify-between">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
+            disabled={!formIsValid}
           >
             Sign In
           </button>
@@ -80,6 +108,7 @@ export default function LoginForm({ passFormInfo }) {
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mb-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
+            disabled={!formIsValid}
           >
             Sign In
           </button>
