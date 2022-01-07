@@ -1,6 +1,21 @@
 import react from "react";
+import { useValidate } from "../../hooks/useValidate";
 
 export default function LoginForm({ passFormInfo }) {
+  const {
+    valid: isValidUserName,
+    getValidation: validateUser,
+    error: errorUser,
+    setFormInput: setUserInput,
+  } = useValidate();
+
+  const {
+    valid: isValidPassword,
+    getValidation: validatePassword,
+    error: errorPassword,
+    setFormInput: setPasswordInput,
+  } = useValidate();
+
   return (
     <div className="md:w-full md:max-w-sm">
       <form
@@ -11,6 +26,7 @@ export default function LoginForm({ passFormInfo }) {
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="username"
+            onChange={() => }
           >
             Username
           </label>

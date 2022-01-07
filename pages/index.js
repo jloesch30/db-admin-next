@@ -24,17 +24,17 @@ function Home() {
         // if the user does not have a session, redirect to login
         <IndexCheckAuth>
           <div>
-            <p className="text-3xl">
-              Oops...
-            </p>
+            <p className="text-3xl">Protected Page</p>
           </div>
-          <br/>
+          <br />
           <div className="flex justify-center align-middle">
-            <div className="shadow-lg rounded-md bg-blue-200">
+            <div className="shadow-lg rounded-md bg-slate-200">
               <p className="py-3 px-10">
                 It looks like you are not logged in....
                 <br />
-                Redirecting you to the login page
+                <span className="font-thin italic">
+                  One moment as we take you to the login page
+                </span>
               </p>
             </div>
           </div>
