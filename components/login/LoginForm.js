@@ -1,5 +1,3 @@
-import react from "react";
-import { useValidate } from "../../hooks/useValidate";
 import useInput from "../../hooks/use-input";
 
 export default function LoginForm({ passFormInfo }) {
