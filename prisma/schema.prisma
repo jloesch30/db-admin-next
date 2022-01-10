@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  userName  String   @unique
+  password  String   @unique
+  email     String   @unique
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  fname     String
+  lname     String
+  image     String? // optional with the "?"
+}
+
+model Individual {
+  id                  String                @id @default(uuid())
+  profileImage        ProfileImage?
+  fname               String
+  mname               String?
+  lname               String
+  birthYear           Int?
+  birthMonth          Int?
+  birthDay            Int?
+  County              String?
+  State               String?
+  imageId             String?
+  FileIndividualJoin  FileIndividualJoin[] // no items in the list will return empty list
+  ImageIndividualJoin ImageIndividualJoin[]
+}
+
+model File {
+  id                 String               @id @default(uuid())
+  link               String
+  FileIndividualJoin FileIndividualJoin[]
+}
+
+// making it so that each person can have one or more files and
+// one file can be related to one or more people
+// when inputing a file, make it so they can select which profile to add the file too
+model FileIndividualJoin {
+  individual   Individual @relation(fields: [individualId], references: [id])
+  individualId String
+  file         File       @relation(fields: [fileId], references: [id])
+  fileId       String
+
+  @@id([individualId, fileId])
+}
+
+model Image {
+  id                  String                @id @default(uuid())
+  link                String
+  ImageIndividualJoin ImageIndividualJoin[]
+}
+
+model ImageIndividualJoin {
+  image        Image      @relation(fields: [imageId], references: [id])
+  imageId      String
+  individual   Individual @relation(fields: [individualId], references: [id])
+  individualId String
+
+  @@id([imageId, individualId])
+}
+
+model ProfileImage {
+  id           String     @id @default(uuid())
+  link         String
+  individual   Individual @relation(fields: [individualId], references: [id])
+  individualId String     @unique
+}
+
+enum Role {
+  ADMIN
+  USER
+}
