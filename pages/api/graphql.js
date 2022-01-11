@@ -1,31 +1,26 @@
-import { gql, ApolloServer } from "apollo-server-micro";
-import { PrismaClient } from "@prisma/client";
+import { ApolloServer } from "apollo-server-micro";
+import { resolvers } from "./resolvers";
+import { typeDefs } from "./schemas";
+import Cors from "micro-cors";
 
-const prisma = new PrismaClient();
-
-const typeDefs = gql`
-  type User {
-    id: ID
-  }
-
-  type Query {
-
-  }
-
-  type Mutation {
-
-  }
-`;
-
-const resolvers = {};
-
+const cors = Cors();
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
 });
 
-const handler = apolloServer.createHandler({ path: "api/graphql" });
+const startServer = apolloServer.start();
 
-export const config = { api: { bodyParser: false } };
+export default cors(async function handler(req, res) {
+  await startServer;
 
-export default handler;
+  await apolloServer.createHandler({
+    path: "/api/graphql",
+  })(req, res);
+});
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
