@@ -49,7 +49,7 @@ export const typeDefs = gql`
     user: User!
   }
 
-  type signUpInput {
+  input signUpInput {
     username: String!
     password: String!
     email: String!
@@ -58,7 +58,7 @@ export const typeDefs = gql`
     profileImage: String
   }
 
-  type signUpInput {
+  input signUpInput {
     username: String
     password: String
     email: String
@@ -67,12 +67,12 @@ export const typeDefs = gql`
     profileImage: String
   }
 
-  type loginInput {
+  input loginInput {
     username: String!
     password: String!
   }
 
-  type updateUserInput {
+  input updateUserInput {
     username: String
     password: String
     email: String
@@ -81,7 +81,7 @@ export const typeDefs = gql`
     profileImage: String
   }
 
-  type updateProfileInput {
+  input updateProfileInput {
     fname: String
     mname: String
     lname: String
