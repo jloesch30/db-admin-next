@@ -18,7 +18,7 @@ export const typeDefs = gql`
 
   type User {
     id: ID!
-    userName: String!
+    username: String!
     password: String!
     email: String!
     fname: String!
@@ -50,7 +50,7 @@ export const typeDefs = gql`
   }
 
   input signUpInput {
-    userName: String!
+    username: String!
     password: String!
     email: String!
     fname: String!
