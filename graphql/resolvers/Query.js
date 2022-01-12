@@ -1,6 +1,8 @@
+import prisma from "../../lib/prisma";
+
 const Query = {
-  user: () => {
-    return "testing";
+  users: async (parent, args, ctx, info) => {
+    return await prisma.user.findMany();
   },
 };
 

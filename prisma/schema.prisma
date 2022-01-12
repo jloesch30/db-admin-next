@@ -24,7 +24,7 @@ model User {
 }
 
 model Profile {
-  id                  String                @id @default(uuid())
+  id                  String             @id @default(uuid())
   profileImage        ProfileImage?
   fname               String
   mname               String?
@@ -34,20 +34,20 @@ model Profile {
   birthDay            Int?
   County              String?
   State               String?
-  FileIndividualJoin  FileIndividualJoin[] // no items in the list will return empty list
-  ImageIndividualJoin ImageIndividualJoin[]
+  FileIndividualJoin  FileProfileJoin[] // no items in the list will return empty list
+  ImageIndividualJoin ImageProfileJoin[]
 }
 
 model File {
-  id                 String               @id @default(uuid())
+  id                 String            @id @default(uuid())
   link               String
-  FileIndividualJoin FileIndividualJoin[]
+  FileIndividualJoin FileProfileJoin[]
 }
 
 // making it so that each person can have one or more files and
 // one file can be related to one or more people
 // when inputing a file, make it so they can select which profile to add the file too
-model FileIndividualJoin {
+model FileProfileJoin {
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String
   file      File    @relation(fields: [fileId], references: [id])
@@ -57,12 +57,12 @@ model FileIndividualJoin {
 }
 
 model Image {
-  id                  String                @id @default(uuid())
+  id                  String             @id @default(uuid())
   link                String
-  ImageIndividualJoin ImageIndividualJoin[]
+  ImageIndividualJoin ImageProfileJoin[]
 }
 
-model ImageIndividualJoin {
+model ImageProfileJoin {
   image     Image   @relation(fields: [imageId], references: [id])
   imageId   String
   profile   Profile @relation(fields: [profileId], references: [id])

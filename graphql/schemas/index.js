@@ -50,7 +50,7 @@ export const typeDefs = gql`
   }
 
   input signUpInput {
-    username: String!
+    userName: String!
     password: String!
     email: String!
     fname: String!
