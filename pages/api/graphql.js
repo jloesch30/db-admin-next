@@ -4,9 +4,13 @@ import { typeDefs } from "../../graphql/schemas";
 import Cors from "micro-cors";
 
 const cors = Cors();
+
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req, res }) => {
+    return { req, res };
+  },
 });
 
 const startServer = apolloServer.start();

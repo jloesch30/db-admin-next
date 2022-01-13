@@ -1,9 +1,10 @@
 import { graphqlUploadExpress, GraphQLUpload } from "graphql-upload";
 import { hash, compare } from "bcryptjs";
 import prisma from "../../lib/prisma";
+import { sign } from "jsonwebtoken";
 
 const Mutation = {
-  login: async (parent, { data }, ctx, info) => {
+  login: async (_, { data }, { res }, info) => {
     const password = data.password;
     const username = data.username;
 
@@ -15,11 +16,42 @@ const Mutation = {
       },
     });
 
-    console.log(existingUser);
+    if (!existingUser) {
+      throw new Error("The user does not exist");
+    }
+
+    const valid = await compare(password, existingUser.password);
+
+    if (!valid) {
+      throw new Error("Invalid password");
+    }
+
+    // login was a success
+    // res.cookie(
+    //   "jid",
+    //   sign(
+    //     {
+    //       userId: existingUser.id,
+    //     },
+    //     "sdfgonvusdr",
+    //     { expiresIn: "7d" }
+    //   ),
+    //   {
+    //     httpOnly: true,
+    //     sameSite: "none",
+    //     secure: true,
+    //   }
+    // );
 
     return {
-      token: "test",
-      user: null,
+      token: sign(
+        {
+          userId: existingUser.id,
+        },
+        "asdfhehjasdf",
+        { expiresIn: "15m" }
+      ),
+      user: existingUser,
     };
   },
 
@@ -40,16 +72,14 @@ const Mutation = {
         },
       });
 
-      console.log(newUser);
+      return {
+        token: "test",
+        user: newUser,
+      };
     } catch (err) {
       console.log(err.message);
       throw new Error("There was a problem inserting the user into the DB");
     }
-
-    return {
-      token: "test",
-      user: newUser,
-    };
   },
 };
 
