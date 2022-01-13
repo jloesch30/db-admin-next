@@ -10,6 +10,7 @@
   "dependencies": {
     "@prisma/client": "^3.7.0",
     "apollo-server-micro": "^3.6.1",
+    "apollo-server-plugin-http-headers": "^0.1.4",
     "bcryptjs": "^2.4.3",
     "graphql": "^16.2.0",
     "graphql-upload": "^13.0.0",

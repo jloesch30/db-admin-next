@@ -8,6 +8,8 @@ const Mutation = {
     const password = data.password;
     const username = data.username;
 
+    console.log(typeof res);
+
     // find if the user exists
     // returns null if the user does not exist
     const existingUser = await prisma.user.findUnique({
@@ -27,21 +29,19 @@ const Mutation = {
     }
 
     // login was a success
-    // res.cookie(
-    //   "jid",
-    //   sign(
-    //     {
-    //       userId: existingUser.id,
-    //     },
-    //     "sdfgonvusdr",
-    //     { expiresIn: "7d" }
-    //   ),
-    //   {
-    //     httpOnly: true,
-    //     sameSite: "none",
-    //     secure: true,
-    //   }
-    // );
+    res.cookie(
+      "jid",
+      sign(
+        {
+          userId: existingUser.id,
+        },
+        "sdfgonvusdr",
+        { expiresIn: "7d" }
+      ),
+      {
+        httpOnly: true,
+      }
+    );
 
     return {
       token: sign(
