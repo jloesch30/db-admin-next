@@ -31,6 +31,8 @@ const Mutation = {
       throw new Error("Invalid password");
     }
 
+    // sign was successful
+
     return {
       token: sign(
         {
