@@ -1,7 +1,7 @@
 import { graphqlUploadExpress, GraphQLUpload } from "graphql-upload";
 import { hash, compare } from "bcryptjs";
 import prisma from "../../lib/prisma";
-import { sign } from "jsonwebtoken";
+import { createRefreshToken, createAccessToken } from "../utils";
 
 const Mutation = {
   login: async (_, { data }, { res }, info) => {
@@ -10,8 +10,6 @@ const Mutation = {
 
     // this seemingly works haha
     // res.setHeader("Set-Cookie", `mycookie=test`);
-
-    console.log(res);
 
     // find if the user exists
     // returns null if the user does not exist
@@ -31,16 +29,24 @@ const Mutation = {
       throw new Error("Invalid password");
     }
 
-    // sign was successful
+    // sign was successful (set cookies)
+    const tokenExpireDate = new Date();
+
+    tokenExpireDate.setDate(
+      tokenExpireDate.getDate() + 60 * 60 * 24 * 7 // 7 days
+    );
+
+    res.setHeader(
+      "Set-Cookie",
+      `jid=${createRefreshToken(
+        existingUser
+      )}; expires=${tokenExpireDate}; httpOnly=true`
+    );
+
+    console.log(res);
 
     return {
-      token: sign(
-        {
-          userId: existingUser.id,
-        },
-        "asdfhehjasdf",
-        { expiresIn: "15m" }
-      ),
+      token: createAccessToken(existingUser),
       user: existingUser,
     };
   },
