@@ -1,7 +1,8 @@
 import { graphqlUploadExpress, GraphQLUpload } from "graphql-upload";
 import { hash, compare } from "bcryptjs";
 import prisma from "../../lib/prisma";
-import { createRefreshToken, createAccessToken } from "../utils";
+import { createRefreshToken, createAccessToken, getUserId } from "../utils";
+import { AuthenticationError } from "apollo-server-micro";
 
 const Mutation = {
   login: async (_, { data }, { res }, info) => {
@@ -43,8 +44,6 @@ const Mutation = {
       )}; expires=${tokenExpireDate}; httpOnly=true`
     );
 
-    console.log(res);
-
     return {
       token: createAccessToken(existingUser),
       user: existingUser,
@@ -69,13 +68,26 @@ const Mutation = {
       });
 
       return {
-        token: "test",
+        token: createAccessToken(newUser),
         user: newUser,
       };
     } catch (err) {
       console.log(err.message);
       throw new Error("There was a problem inserting the user into the DB");
     }
+  },
+  createUser: async (_, args, { prisma, req }) => {
+    console.log(req.headers);
+    console.log(prisma);
+    const userId = getUserId(req);
+
+    if (!userId) {
+      throw new AuthenticationError("User was not authenticated");
+    }
+
+    return {
+      fname: "test",
+    };
   },
 };
 
