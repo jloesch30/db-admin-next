@@ -9,7 +9,12 @@ const cors = Cors();
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: createContext,
+  context: ({ res }) => {
+    return {
+      res,
+      createContext,
+    };
+  },
 });
 
 const startServer = apolloServer.start();
@@ -20,13 +25,15 @@ export default cors(async function handler(req, res) {
     return;
   }
 
-  // TODO: unset this
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Origin",
     "https://studio.apollographql.com"
   );
-
-  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
 
   await startServer;
 

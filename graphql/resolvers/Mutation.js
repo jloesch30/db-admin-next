@@ -8,7 +8,10 @@ const Mutation = {
     const password = data.password;
     const username = data.username;
 
-    console.log(typeof res);
+    // this seemingly works haha
+    // res.setHeader("Set-Cookie", `mycookie=test`);
+
+    console.log(res);
 
     // find if the user exists
     // returns null if the user does not exist
@@ -27,21 +30,6 @@ const Mutation = {
     if (!valid) {
       throw new Error("Invalid password");
     }
-
-    // login was a success
-    res.cookie(
-      "jid",
-      sign(
-        {
-          userId: existingUser.id,
-        },
-        "sdfgonvusdr",
-        { expiresIn: "7d" }
-      ),
-      {
-        httpOnly: true,
-      }
-    );
 
     return {
       token: sign(
