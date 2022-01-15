@@ -9,8 +9,6 @@ const Mutation = {
     const password = data.password;
     const username = data.username;
 
-    // find if the user exists
-    // returns null if the user does not exist
     const existingUser = await prisma.user.findUnique({
       where: {
         username: username,
@@ -105,7 +103,7 @@ const Mutation = {
 
     return createdUser;
   },
-  updateUser: (_, { data }, { req }) => {
+  updateUser: async (_, { id, data }, { req }) => {
     console.log(data); // TODO: delete
     const userId = getUserId(req);
 

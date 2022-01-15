@@ -4,7 +4,7 @@ export const typeDefs = gql`
   type Query {
     users(query: String): [User!]!
     files(query: String): [File!]!
-    user(id: ID, query: String!): User!
+    user(id: ID, query: queryUserInput): User!
     me: User!
   }
 
@@ -100,5 +100,10 @@ export const typeDefs = gql`
     lname: String
     role: String
     profileImage: String
+  }
+
+  input queryUserInput {
+    username: String
+    email: String
   }
 `;

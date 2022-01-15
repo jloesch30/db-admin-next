@@ -6,9 +6,6 @@ export default function SignIn({ providers }) {
     const userName = event.target[0].value;
     const pass = event.target[1].value;
 
-    console.log(userName, pass);
-    // sign the user in
-
     // TODO: delete this
     Object.values(providers).map((provider) => {
       console.log(provider.name);
