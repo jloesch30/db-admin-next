@@ -9,9 +9,6 @@ const Mutation = {
     const password = data.password;
     const username = data.username;
 
-    // this seemingly works haha
-    // res.setHeader("Set-Cookie", `mycookie=test`);
-
     // find if the user exists
     // returns null if the user does not exist
     const existingUser = await prisma.user.findUnique({
@@ -51,9 +48,6 @@ const Mutation = {
   },
 
   signUp: async (parent, { data }, ctx, info) => {
-    console.log("Creating user");
-    console.log(`data coming in is: ${JSON.stringify(data)}`);
-
     const hashedPassword = await hash(data.password, 12);
 
     try {
@@ -76,7 +70,7 @@ const Mutation = {
       throw new Error("There was a problem inserting the user into the DB");
     }
   },
-  createUser: async (_, args, { prisma, req }) => {
+  createUser: async (_, { data }, { prisma, req }) => {
     console.log(req.headers);
     console.log(prisma);
     const userId = getUserId(req);
@@ -85,9 +79,33 @@ const Mutation = {
       throw new AuthenticationError("User was not authenticated");
     }
 
-    return {
-      fname: "test",
-    };
+    // check user role
+    const currUser = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    const userRole = currUser.role;
+
+    if (userRole !== "ADMIN") {
+      throw new AuthenticationError(`The user is not an admin: ${userRole}`);
+    }
+
+    const hashedPassword = await hash(data.password, 12);
+
+    const createdUser = await prisma.user.create({
+      data: {
+        username: data.username,
+        password: hashedPassword,
+        email: data.email,
+        role: data.role,
+        fname: data.fname,
+        lname: data.lname,
+      },
+    });
+
+    return createdUser;
   },
 };
 

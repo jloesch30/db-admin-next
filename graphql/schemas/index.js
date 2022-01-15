@@ -11,7 +11,7 @@ export const typeDefs = gql`
   type Mutation {
     signUp(data: signUpInput!): AuthPayload
     login(data: loginInput!): AuthPayload
-    createUser(data: signUpInput!): User!
+    createUser(data: createUserInput!): User!
     updateUser(id: ID!, data: updateUserInput!): User!
     updateProfile(id: ID!, data: updateProfileInput!): Profile!
   }
@@ -90,5 +90,15 @@ export const typeDefs = gql`
     birthDay: Int
     county: String
     State: String
+  }
+
+  input createUserInput {
+    username: String
+    password: String
+    email: String
+    fname: String
+    lname: String
+    role: String
+    profileImage: String
   }
 `;
