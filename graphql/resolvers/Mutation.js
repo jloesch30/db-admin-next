@@ -71,8 +71,6 @@ const Mutation = {
     }
   },
   createUser: async (_, { data }, { prisma, req }) => {
-    console.log(req.headers);
-    console.log(prisma);
     const userId = getUserId(req);
 
     if (!userId) {
@@ -106,6 +104,41 @@ const Mutation = {
     });
 
     return createdUser;
+  },
+  updateUser: (_, { data }, { req }) => {
+    console.log(data); // TODO: delete
+    const userId = getUserId(req);
+
+    if (!userId) {
+      throw new AuthenticationError("User was not authenticated");
+    }
+
+    const currUser = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    // TODO: this may change to ID
+    const targetUser = await prisma.user.findUnique({
+      where: {
+        email: data.email,
+      },
+    });
+
+    // if the user requesting the update is updating their own account
+    if (currUser.id === targetUser.id) {
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: targetUser.id,
+        },
+        data: {
+          ...data,
+        },
+      });
+    }
+
+    // if the user is an admin and updating someone else's account
   },
 };
 
