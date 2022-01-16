@@ -36,8 +36,10 @@ const Mutation = {
       "Set-Cookie",
       `jid=${createRefreshToken(
         existingUser
-      )}; expires=${tokenExpireDate}; httpOnly=true`
+      )}; Expires=${tokenExpireDate}; HttpOnly; Secure`
     );
+
+    console.log(res);
 
     return {
       token: createAccessToken(existingUser),

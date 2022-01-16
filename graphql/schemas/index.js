@@ -14,6 +14,7 @@ export const typeDefs = gql`
     createUser(data: createUserInput!): User!
     updateUser(id: ID!, data: updateUserInput!): User!
     updateProfile(id: ID!, data: updateProfileInput!): Profile!
+    indexTokenVersion(id: ID!): User!
   }
 
   type User {

@@ -10,13 +10,10 @@ User cookie parser to put cookie in an object
 */
 import { verify } from "jsonwebtoken";
 import "dotenv/config";
+import prisma from "../../lib/prisma";
+import { createAccessToken, createRefreshToken } from "../../graphql/utils";
 
-export default function handler(req, res) {
-  res.status(200).json({
-    content: `${JSON.stringify(req.cookies)}`,
-  });
-  console.log(req.cookies);
-
+export default async function handler(req, res) {
   const token = req.cookies.jid;
   if (!token) {
     return res.send({ ok: false, accessToken: "" });
@@ -32,4 +29,31 @@ export default function handler(req, res) {
   }
 
   // token was verified
+  const user = await prisma.user.findUnique({
+    where: {
+      id: payload.userId,
+    },
+  });
+
+  if (!user) {
+    return res.send({ ok: false, accessToken: "" });
+  }
+
+  // the token is now invalid and will not work
+  if (user.tokenVersion !== payload.tokenVersion) {
+    return res.send({ ok: false, accessToken: "" });
+  }
+
+  const tokenExpireDate = new Date();
+
+  tokenExpireDate.setDate(
+    tokenExpireDate.getDate() + 60 * 60 * 24 * 7 // 7 days
+  );
+
+  res.setHeader(
+    "Set-Cookie",
+    `jid=${createRefreshToken(user)}; HttpOnly; Expires=${tokenExpireDate}`
+  );
+
+  return res.send({ ok: true, accessToken: createAccessToken(user) });
 }
