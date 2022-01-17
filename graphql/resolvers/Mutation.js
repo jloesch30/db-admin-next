@@ -1,7 +1,12 @@
 import { graphqlUploadExpress, GraphQLUpload } from "graphql-upload";
 import { hash, compare } from "bcryptjs";
 import prisma from "../../lib/prisma";
-import { createRefreshToken, createAccessToken, getUserId } from "../utils";
+import {
+  createRefreshToken,
+  createAccessToken,
+  getUserId,
+  createTempVerifyToken,
+} from "../utils";
 import { AuthenticationError } from "apollo-server-micro";
 
 const Mutation = {
@@ -16,6 +21,7 @@ const Mutation = {
     });
 
     if (!existingUser) {
+      // I need to redirect them to the sign in page
       throw new Error("The user does not exist");
     }
 
@@ -62,7 +68,7 @@ const Mutation = {
       });
 
       return {
-        token: createAccessToken(newUser),
+        token: createTempVerifyToken(newUser),
         user: newUser,
       };
     } catch (err) {

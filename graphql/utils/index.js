@@ -19,6 +19,20 @@ export const createRefreshToken = (user) => {
   );
 };
 
+// this verification token will allow them to get to the verify screen
+// where they will be messaged a 1 time code
+export const createTempVerifyToken = (user) => {
+  return sign(
+    {
+      userId: user.id,
+    },
+    process.env.VERIFY_TOKEN_SECRET,
+    {
+      expiresIn: "10m",
+    }
+  );
+};
+
 export const getUserId = (req) => {
   console.log("inside of get user");
   const header = req.headers.authorization;

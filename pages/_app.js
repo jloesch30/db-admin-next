@@ -1,16 +1,16 @@
-import Layout from '../components/layout/Layout'
-import '../styles/globals.css'
-import { SessionProvider } from 'next-auth/react'
+import Layout from "../components/layout/Layout";
+import "../styles/globals.css";
+import { ApolloProvider } from "@apollo/client";
+import apolloClient from "../lib/apollo";
 
 function MyApp({ Component, pageProps }) {
-
   return (
-    <SessionProvider session={pageProps.session}>
+    <ApolloProvider client={apolloClient}>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </SessionProvider>
-  )
+    </ApolloProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
