@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   try {
     const decoded = verify(token, process.env.VERIFY_TOKEN_SECRET);
 
-    // the token is valid, send a via mobile and await response
+    // the token is valid, send a code via mobile and await response
   } catch (err) {
     res.send({ ok: false, accessToken: "" });
     console.log(err);
