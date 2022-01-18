@@ -101,6 +101,7 @@ export const typeDefs = gql`
     lname: String
     role: String
     profileImage: String
+    tempVerifyCode: String
   }
 
   input queryUserInput {

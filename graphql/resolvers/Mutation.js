@@ -6,6 +6,7 @@ import {
   createAccessToken,
   getUserId,
   createTempVerifyToken,
+  createTempSMSToken,
 } from "../utils";
 import { AuthenticationError } from "apollo-server-micro";
 
@@ -21,7 +22,6 @@ const Mutation = {
     });
 
     if (!existingUser) {
-      // I need to redirect them to the sign in page
       throw new Error("The user does not exist");
     }
 
@@ -31,22 +31,16 @@ const Mutation = {
       throw new Error("Invalid password");
     }
 
-    // send the verification code here and set in the database
-    // this could be in the form of a JWT that has an expiration date...
+    const smsToken = createTempSMSToken(existingUser);
 
-    // const tokenExpireDate = new Date();
-
-    // tokenExpireDate.setDate(
-    //   tokenExpireDate.getDate() + 60 * 60 * 24 * 7 // 7 days
-    // );
-
-    // TODO: use this to set the cookie when verified
-    // res.setHeader(
-    //   "Set-Cookie",
-    //   `jid=${createRefreshToken(
-    //     existingUser
-    //   )}; Expires=${tokenExpireDate}; HttpOnly; Secure`
-    // );
+    await prisma.user.update({
+      where: {
+        id: existingUser.id,
+      },
+      data: {
+        tempVerifyCode: smsToken,
+      },
+    });
 
     return {
       token: createTempVerifyToken(existingUser),
@@ -55,30 +49,34 @@ const Mutation = {
   },
 
   createUser: async (_, { data }, { prisma, req }) => {
-    const userId = getUserId(req);
+    // TODO: uncomment this
+    // const userId = getUserId(req);
 
-    if (!userId) {
-      throw new AuthenticationError("User was not authenticated");
-    }
+    // if (!userId) {
+    //   throw new AuthenticationError("User was not authenticated");
+    // }
 
     // check user role
-    const currUser = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
+    // const currUser = await prisma.user.findUnique({
+    //   where: {
+    //     id: userId,
+    //   },
+    // });
 
-    if (!currUser) {
-      throw new Error("The user sending the request DNE");
-    }
+    // if (!currUser) {
+    //   throw new Error("The user sending the request DNE");
+    // }
 
-    const userRole = currUser.role;
+    // const userRole = currUser.role;
 
-    if (userRole !== "ADMIN") {
-      throw new AuthenticationError(`The user is not an admin: ${userRole}`);
-    }
+    // if (userRole !== "ADMIN") {
+    //   throw new AuthenticationError(`The user is not an admin: ${userRole}`);
+    // }
+    // TODO: Uncomment this
 
     const hashedPassword = await hash(data.password, 12);
+
+    console.log(data.tempVerifyCode);
 
     const createdUser = await prisma.user.create({
       data: {
@@ -88,6 +86,7 @@ const Mutation = {
         role: data.role,
         fname: data.fname,
         lname: data.lname,
+        tempVerifyCode: data.tempVerifyCode,
       },
     });
 

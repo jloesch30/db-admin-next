@@ -23,7 +23,7 @@ model User {
   lname          String
   tokenVersion   Int           @default(0)
   firstTimeLogin Boolean       @default(true)
-  tmpVerifyCode  Int
+  tempVerifyCode String
 }
 
 model Profile {

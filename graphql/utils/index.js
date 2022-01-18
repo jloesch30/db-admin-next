@@ -28,18 +28,20 @@ export const createTempVerifyToken = (user) => {
     },
     process.env.VERIFY_TOKEN_SECRET,
     {
-      expiresIn: "10m",
+      expiresIn: "10d",
     }
   );
 };
 
+// TODO: change expiration to a shorter value
 export const createTempSMSToken = (user) => {
   return sign(
     {
       userId: user.id,
+      smsCode: 1234, // TODO: create a random code
     },
     process.env.SMS_TOKEN_SECRET,
-    { expiresIn: "5m" }
+    { expiresIn: "10d" }
   );
 };
 
