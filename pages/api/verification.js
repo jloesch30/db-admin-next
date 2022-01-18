@@ -8,4 +8,26 @@
 5. await the verification code on the server side and if valid, create an access token and refresh token
 */
 
-export default async function handler(req, res) {}
+export default async function handler(req, res) {
+  // check if the verification token is valid in the request
+
+  const header = req.headers["Authorization"];
+
+  if (!header) {
+    res.send({ ok: false, accessToken: "" });
+  }
+  console.log(req.headers);
+
+  const token = header.replace("Bearer ", "");
+  token.split(" ")[1];
+
+  // verify token and respond with a refresh token and access token if valid
+  try {
+    const decoded = verify(token, process.env.VERIFY_TOKEN_SECRET);
+
+    // the token is valid, send a via mobile and await response
+  } catch (err) {
+    res.send({ ok: false, accessToken: "" });
+    console.log(err);
+  }
+}

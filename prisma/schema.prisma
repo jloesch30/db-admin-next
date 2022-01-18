@@ -11,17 +11,19 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  profileImage ProfileImage?
-  username     String        @unique
-  password     String        @unique
-  email        String        @unique
-  role         Role          @default(USER)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  fname        String
-  lname        String
-  tokenVersion Int           @default(0)
+  id             String        @id @default(uuid())
+  profileImage   ProfileImage?
+  username       String        @unique
+  password       String        @unique
+  email          String        @unique
+  role           Role          @default(USER)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  fname          String
+  lname          String
+  tokenVersion   Int           @default(0)
+  firstTimeLogin Boolean       @default(true)
+  tmpVerifyCode  Int
 }
 
 model Profile {

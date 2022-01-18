@@ -1,3 +1,4 @@
+// TODO: LOCK DOWN THIS PAGE FOR ADMINS
 import react from "react";
 import useInput from "../../hooks/use-input";
 
@@ -54,7 +55,7 @@ export default function NewUserForm({ passFormInfo }) {
   }
 
   return (
-    <div className="md:w-full md:max-w-sm mb-3">
+    <div className="m-auto">
       <form
         onSubmit={passFormInfo}
         className="bg-white shadow-md rounded md:px-8 px-16 pt-6 pb-8 md:mb-4"

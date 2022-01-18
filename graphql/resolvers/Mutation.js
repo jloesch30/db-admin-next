@@ -31,51 +31,29 @@ const Mutation = {
       throw new Error("Invalid password");
     }
 
-    // sign was successful (set cookies)
-    const tokenExpireDate = new Date();
+    // send the verification code here and set in the database
+    // this could be in the form of a JWT that has an expiration date...
 
-    tokenExpireDate.setDate(
-      tokenExpireDate.getDate() + 60 * 60 * 24 * 7 // 7 days
-    );
+    // const tokenExpireDate = new Date();
 
-    res.setHeader(
-      "Set-Cookie",
-      `jid=${createRefreshToken(
-        existingUser
-      )}; Expires=${tokenExpireDate}; HttpOnly; Secure`
-    );
+    // tokenExpireDate.setDate(
+    //   tokenExpireDate.getDate() + 60 * 60 * 24 * 7 // 7 days
+    // );
 
-    console.log(res);
+    // TODO: use this to set the cookie when verified
+    // res.setHeader(
+    //   "Set-Cookie",
+    //   `jid=${createRefreshToken(
+    //     existingUser
+    //   )}; Expires=${tokenExpireDate}; HttpOnly; Secure`
+    // );
 
     return {
-      token: createAccessToken(existingUser),
+      token: createTempVerifyToken(existingUser),
       user: existingUser,
     };
   },
 
-  signUp: async (parent, { data }, ctx, info) => {
-    const hashedPassword = await hash(data.password, 12);
-
-    try {
-      const newUser = await prisma.user.create({
-        data: {
-          username: data.username,
-          password: hashedPassword,
-          email: data.email,
-          fname: data.fname,
-          lname: data.lname,
-        },
-      });
-
-      return {
-        token: createTempVerifyToken(newUser),
-        user: newUser,
-      };
-    } catch (err) {
-      console.log(err.message);
-      throw new Error("There was a problem inserting the user into the DB");
-    }
-  },
   createUser: async (_, { data }, { prisma, req }) => {
     const userId = getUserId(req);
 
@@ -89,6 +67,10 @@ const Mutation = {
         id: userId,
       },
     });
+
+    if (!currUser) {
+      throw new Error("The user sending the request DNE");
+    }
 
     const userRole = currUser.role;
 

@@ -9,7 +9,7 @@ export default function NewUser() {
   const postNewUser = (event) => {};
   return (
     <main>
-      <div className="flex justify-center mt-10">
+      <div className="flex h-screen">
         <NewUserForm passFormInfo={postNewUser}></NewUserForm>
       </div>
     </main>

@@ -33,6 +33,16 @@ export const createTempVerifyToken = (user) => {
   );
 };
 
+export const createTempSMSToken = (user) => {
+  return sign(
+    {
+      userId: user.id,
+    },
+    process.env.SMS_TOKEN_SECRET,
+    { expiresIn: "5m" }
+  );
+};
+
 export const getUserId = (req) => {
   console.log("inside of get user");
   const header = req.headers.authorization;

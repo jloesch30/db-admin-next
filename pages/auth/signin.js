@@ -16,7 +16,7 @@ export default function SignIn({ providers }) {
 
   return (
     <main>
-      <div className="flex justify-center mt-10">
+      <div className="flex h-screen">
         <LoginForm passFormInfo={submitFormInformation}></LoginForm>
       </div>
     </main>

@@ -9,7 +9,6 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    signUp(data: signUpInput!): AuthPayload
     login(data: loginInput!): AuthPayload
     createUser(data: createUserInput!): User!
     updateUser(id: ID!, data: updateUserInput!): User!
@@ -24,6 +23,7 @@ export const typeDefs = gql`
     email: String!
     fname: String!
     lname: String!
+    firstTimeLogin: Boolean!
   }
 
   type Profile {
