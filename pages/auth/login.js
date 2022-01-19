@@ -18,12 +18,14 @@ export default function SignIn() {
     useMutation(LOGIN_USER);
   const router = useRouter();
 
-  const submitFormInformation = (event) => {
+  const submitFormInformation = (
+    event,
+    resetPasswordInput,
+    resetUsernameInput
+  ) => {
     const userName = event.target[0].value;
     const pass = event.target[1].value;
 
-    console.log(userName);
-    console.log(pass);
     // use login mutation with credentials
     login({
       variables: {
@@ -35,33 +37,24 @@ export default function SignIn() {
     })
       .then((data) => {
         console.log(data);
-        return;
+        // redirect the user to the verify page
       })
       .catch((err) => {
         console.log(err);
-        setTimeout(() => {
-          console.log("activated");
-          resetLogin();
-        }, 3000);
+        resetPasswordInput();
+        resetUsernameInput();
       });
     event.preventDefault();
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error)
-    return (
-      <p>
-        Something went wrong :(
-        <br />
-        Redirecting you to the login page..
-      </p>
-    );
-  if (data) return <p>Data is received</p>;
-
   return (
     <main>
       <div className="flex h-screen">
-        <LoginForm passFormInfo={submitFormInformation}></LoginForm>
+        <LoginForm
+          passFormInfo={submitFormInformation}
+          loginError={error}
+          loginLoading={loading}
+        ></LoginForm>
       </div>
     </main>
   );

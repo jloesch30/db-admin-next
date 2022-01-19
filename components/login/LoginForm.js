@@ -1,6 +1,6 @@
 import useInput from "../../hooks/use-input";
 
-export default function LoginForm({ passFormInfo }) {
+export default function LoginForm({ passFormInfo, loginError, loginLoading }) {
   const {
     value: enteredUsername,
     isValid: enteredUserNameValid,
@@ -28,7 +28,9 @@ export default function LoginForm({ passFormInfo }) {
   return (
     <div className="m-auto">
       <form
-        onSubmit={passFormInfo}
+        onSubmit={(e) =>
+          passFormInfo(e, resetPasswordInput, resetUsernameInput)
+        }
         className="bg-white shadow-md rounded md:px-8 px-16 pt-6 pb-8 md:mb-4"
       >
         <div className="mb-4">
@@ -110,6 +112,15 @@ export default function LoginForm({ passFormInfo }) {
           >
             Forgot Password?
           </a>
+          {loginError && (
+            <div className="text-center">
+              <p className="text-red-400 font-semibold mt-2">
+                This user does not exist
+                <br />
+                Please try again
+              </p>
+            </div>
+          )}
         </div>
       </form>
     </div>
