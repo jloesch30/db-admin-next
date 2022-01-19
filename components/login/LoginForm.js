@@ -89,9 +89,9 @@ export default function LoginForm({ passFormInfo, loginError, loginLoading }) {
           >
             Sign In
           </button>
-          <div className="flex flex-col">
+          <div>
             <a
-              className="inline-block align-baseline font-bold text-sm text-blue-300 hover:text-blue-500"
+              className="ml-2 inline-block align-baseline font-bold text-sm text-blue-300 hover:text-blue-500"
               href="#"
             >
               Forgot Password?
