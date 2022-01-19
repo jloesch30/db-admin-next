@@ -8,7 +8,7 @@ export default function LoginForm({ passFormInfo }) {
     valueChangeHandler: usernameChangeHandler,
     inputBlurHandler: usernameBlurHandler,
     reset: resetUsernameInput,
-  } = useInput((value) => value.includes("@") && value.trim() !== "");
+  } = useInput((value) => value.trim() !== "");
 
   const {
     value: enteredPassword,
