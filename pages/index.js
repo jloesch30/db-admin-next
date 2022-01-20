@@ -41,3 +41,12 @@ function Home() {
 }
 
 export default Home;
+
+// export async function getStaticProps(context) {
+//   console.log(context.req);
+//   return {
+//     props: {
+//       req: context.req,
+//     },
+//   };
+// }
