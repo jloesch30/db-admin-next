@@ -24,6 +24,7 @@ export const typeDefs = gql`
     fname: String!
     lname: String!
     firstTimeLogin: Boolean!
+    role: String!
   }
 
   type Profile {

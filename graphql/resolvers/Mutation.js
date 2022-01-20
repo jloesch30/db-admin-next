@@ -9,6 +9,7 @@ import {
   createTempSMSToken,
 } from "../utils";
 import { AuthenticationError } from "apollo-server-micro";
+import vonage from "../../lib/vonage";
 
 const Mutation = {
   login: async (_, { data }, { res }, info) => {
@@ -31,7 +32,7 @@ const Mutation = {
       throw new Error("Invalid password");
     }
 
-    const smsToken = createTempSMSToken(existingUser);
+    const { smsToken, smsCode } = createTempSMSToken(existingUser);
 
     await prisma.user.update({
       where: {
@@ -40,6 +41,24 @@ const Mutation = {
       data: {
         tempVerifyCode: smsToken,
       },
+    });
+
+    const from = "18662523290";
+    const to = "17135945997";
+    const text = `Your verification code is ${smsCode}`;
+
+    vonage.message.sendSms(from, to, text, (err, responseData) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (responseData.messages[0]["status"] === "0") {
+          console.log("Message send successfully");
+        } else {
+          console.log(
+            `Message failed with error: ${responseData.messages[0]["error-text"]}`
+          );
+        }
+      }
     });
 
     return {

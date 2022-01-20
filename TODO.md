@@ -20,3 +20,5 @@
 3. Refresh token revocation
 
 - Increment the token version to invalidate the other tokens
+
+4. Protect the verify page with jwt stored in state?

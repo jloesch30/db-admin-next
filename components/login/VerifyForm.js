@@ -21,7 +21,7 @@ export default function VerifyForm({ passFormInfo }) {
         </div>
         <div className="mb-2">
           <p className="text-sm">
-            Please use your verification app and enter the code above
+            Please enter the verification code sent to your email address
           </p>
         </div>
         <div className="flex items-center flex-col">

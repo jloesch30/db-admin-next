@@ -10,6 +10,7 @@
   "dependencies": {
     "@apollo/client": "^3.5.7",
     "@prisma/client": "^3.7.0",
+    "@vonage/server-sdk": "^2.10.10",
     "apollo-server-micro": "^3.6.1",
     "apollo-server-plugin-http-headers": "^0.1.4",
     "bcryptjs": "^2.4.3",

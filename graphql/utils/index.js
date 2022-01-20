@@ -35,14 +35,18 @@ export const createTempVerifyToken = (user) => {
 
 // TODO: change expiration to a shorter value
 export const createTempSMSToken = (user) => {
-  return sign(
-    {
-      userId: user.id,
-      smsCode: 1234, // TODO: create a random code
-    },
-    process.env.SMS_TOKEN_SECRET,
-    { expiresIn: "10d" }
-  );
+  const smsCode = Math.floor(1000 + Math.random() * 9000);
+  return {
+    smsToken: sign(
+      {
+        userId: user.id,
+        smsCode: smsCode,
+      },
+      process.env.SMS_TOKEN_SECRET,
+      { expiresIn: "10d" }
+    ),
+    smsCode: smsCode,
+  };
 };
 
 export const getUserId = (req) => {
@@ -66,3 +70,5 @@ export const getUserId = (req) => {
     console.log(err);
   }
 };
+
+function _sendSMSToken(code) {}
