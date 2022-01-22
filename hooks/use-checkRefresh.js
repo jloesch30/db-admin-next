@@ -11,13 +11,16 @@ const useCheckRefresh = () => {
     setLoading(true);
     const res = await axios.get("http://localhost:3000/api/verification", {
       headers: {
-        authorization: "test",
+        authorization: token,
       },
     });
     setLoading(false);
 
-    console.log(res.data);
-    return null;
+    if (res.ok) {
+      return res.data.accesstoken;
+    }
+
+    return false;
   }, []);
 
   return {

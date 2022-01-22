@@ -5,14 +5,19 @@ import AuthContext from "../../store/auth-context";
 export default function verifyUser({ verifyToken }) {
   const ctx = useContext(AuthContext);
 
+  // form submit handler
+
+  const formSubmitHandler = (e) => {};
+
   useEffect(() => {
     console.log(ctx.userId);
+    console.log(ctx.tmpToken);
   }, []);
 
   return (
     <main>
       <div className="flex h-screen">
-        <VerifyForm></VerifyForm>
+        <VerifyForm passFormInfo={formSubmitHandler}></VerifyForm>
       </div>
     </main>
   );

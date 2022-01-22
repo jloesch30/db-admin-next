@@ -1,4 +1,4 @@
-import react, { useEffect } from "react";
+import react, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import useCheckRefresh from "../../hooks/use-checkRefresh";
@@ -7,26 +7,37 @@ function isEmpty(object) {
   try {
     return Object.keys(object).length === 0;
   } catch (err) {
-    console.log(object);
+    console.log("Logging object as:", object);
     return true;
   }
 }
 
 export default function IndexCheckAuth(props) {
   const router = useRouter();
-  const cookiesEmpty = isEmpty(Cookies.get());
   const { refreshError, refreshLoading, checkRefresh } = useCheckRefresh();
+  const [cookiesEmpty, setCookiesEmpty] = useState(null);
 
   useEffect(() => {
-    const refreshRes = checkRefresh("test");
-    console.log(refreshRes);
+    const token = Cookies.get("authorization");
+    console.log("The token is:", token);
+    const refreshRes = checkRefresh(token);
+
+    if (refreshRes.accessToken) {
+      console.log(refreshRes.accessToken);
+      setCookiesEmpty(false);
+    } else {
+      setCookiesEmpty(true);
+      setTimeout(() => {
+        router.push("/auth/login");
+      }, 2000);
+    }
   }, []);
 
-  if (cookiesEmpty || refreshTokenInvalid) {
-    setTimeout(() => {
-      router.push("/auth/login");
-    }, 2000);
-  }
+  // if (cookiesEmpty || refreshTokenInvalid) {
+  //   setTimeout(() => {
+  //     router.push("/auth/login");
+  //   }, 2000);
+  // }
 
   return (
     <div>

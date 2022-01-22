@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 const AuthContext = React.createContext({
   userId: null,
   role: null,
+  tmpToken: null,
+  setTmpToken: (token) => {},
   setUserIdContext: (user) => {},
   setUserRoleContext: (user) => {},
 });
@@ -11,6 +13,7 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = (props) => {
   const [userId, setUserId] = useState(null);
   const [role, setRole] = useState(null);
+  const [tmpToken, setTmpToken] = useState(null);
 
   const userIdHandler = (id) => {
     setUserId(id);
@@ -20,11 +23,17 @@ export const AuthContextProvider = (props) => {
     setRole(role);
   };
 
+  const tmpTokenHandler = (token) => {
+    setTmpToken(token);
+  };
+
   return (
     <AuthContext.Provider
       value={{
         userId,
         role,
+        tmpToken,
+        setTmpToken,
         setUserIdContext: userIdHandler,
         setUserRoleContext: userRoleHandler,
       }}
