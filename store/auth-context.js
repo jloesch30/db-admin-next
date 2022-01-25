@@ -5,7 +5,7 @@ const AuthContext = React.createContext({
   userId: null,
   role: null,
   tmpToken: null,
-  setTmpToken: (token) => {},
+  setTmpTokenContext: (token) => {},
   setUserIdContext: (user) => {},
   setUserRoleContext: (user) => {},
 });
@@ -33,7 +33,7 @@ export const AuthContextProvider = (props) => {
         userId,
         role,
         tmpToken,
-        setTmpToken,
+        setTmpTokenContext: tmpTokenHandler,
         setUserIdContext: userIdHandler,
         setUserRoleContext: userRoleHandler,
       }}

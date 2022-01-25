@@ -34,6 +34,7 @@ const Mutation = {
 
     const { smsToken, smsCode } = createTempSMSToken(existingUser);
 
+    // saving the sms token in database..
     await prisma.user.update({
       where: {
         id: existingUser.id,

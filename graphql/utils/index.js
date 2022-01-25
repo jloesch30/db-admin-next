@@ -40,7 +40,6 @@ export const createTempSMSToken = (user) => {
     smsToken: sign(
       {
         userId: user.id,
-        smsCode: smsCode,
       },
       process.env.SMS_TOKEN_SECRET,
       { expiresIn: "10d" }

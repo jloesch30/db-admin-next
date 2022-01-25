@@ -7,7 +7,16 @@ export default function verifyUser({ verifyToken }) {
 
   // form submit handler
 
-  const formSubmitHandler = (e) => {};
+  const formSubmitHandler = (e) => {
+    // send the code along with the validate token to verify that is is still valid
+    console.log("the event object", e);
+    const validateToken = localStorage.getItem("validateToken");
+    const smsInput = e.target[0].value;
+
+    console.log(validateToken);
+    console.log(smsInput);
+    e.preventDefault();
+  };
 
   useEffect(() => {
     console.log(ctx.userId);

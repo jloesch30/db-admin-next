@@ -44,7 +44,7 @@ export default function SignIn() {
         console.log(data.data.login.user.id);
         ctx.setUserIdContext(data.data.login.user.id);
         ctx.setUserRoleContext(data.data.login.user.role);
-        ctx.setTmpToken(data.data.login.token);
+        localStorage.setItem("validateToken", data.data.login.token);
 
         // redirect the user to the verify page
         router.push("/auth/verifyAccount");
