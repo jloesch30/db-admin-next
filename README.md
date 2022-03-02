@@ -1,11 +1,11 @@
 ## Application using Next.js, Prisma, and GraphQL
 
 ### How to start the application
-`npm run dev`
+`npm run dev`\
 *This will launch the application to port :3000*
 
 ### How to interact with Prisma
-`npx prisma studio`
+`npx prisma studio`\
 *This will launch another window with a connection to the database*
 
 ### How to interact with GraphQL
