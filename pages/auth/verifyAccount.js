@@ -14,6 +14,7 @@ export default function verifyUser({ verifyToken }) {
         const smsInput = e.target[0].value;
 
         //TODO: validate token ()
+        //TODO: validate that the token using the SMS key is not expired
         //TODO: make sure that the sms token is correct (use mutation)
         //TODO: give the user a refresh token
 

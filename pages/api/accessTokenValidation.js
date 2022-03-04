@@ -24,17 +24,13 @@ export default async function handler(req, res) {
     let decoded = null;
 
     try {
-        decoded = verify(token, process.env.VERIFY_TOKEN_SECRET);
+        decoded = verify(token, process.env.ACCESS_TOKEN_SECRET);
         console.log(decoded);
 
         // check verification code from database
         const userId = decoded["userId"];
 
-        const currUser = await prisma.user.findUnique({
-            where: {
-                id: userId,
-            },
-        });
+        // get the user using graphql
 
         decoded = verify(currUser.tempVerifyCode, process.env.SMS_TOKEN_SECRET);
 
